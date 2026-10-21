@@ -240,6 +240,21 @@ dialog p{font-size:.95rem}
 .stat span{display:block;font-weight:600}
 .stat small{display:block;margin-top:1.4em;font-size:.78rem;line-height:1.5;opacity:.85}
 @media (max-width:860px){.inss{grid-template-columns:1fr;gap:32px}.stat b{font-size:4rem}}
+
+/* v11: obra para o Diogo */
+.steps.s4{grid-template-columns:repeat(4,1fr)}
+.obra2{margin-top:64px}
+.obra3{margin-top:64px;padding-top:48px;border-top:1px solid var(--line)}
+@media (max-width:860px){.steps.s4{grid-template-columns:1fr}.obra2,.obra3{margin-top:44px}}
+
+/* v12: calculadora */
+.calc{display:grid;gap:14px}
+.calc-demo{margin:0;background:#fff3cd;color:#664d03;border:1px solid #ffe69c;border-radius:8px;padding:8px 12px;font-size:.85rem}
+.calc-res{background:linear-gradient(145deg,var(--g),var(--gd));color:#fff;border-radius:16px;padding:26px;text-align:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 14px 34px rgba(20,83,45,.25)}
+.calc-res span{font-weight:600}
+.calc-res b{display:block;font:700 2.6rem/1.15 "Playfair Display",Georgia,serif;color:var(--mint);margin:.2em 0}
+.calc-res p{margin:0 auto 1em;font-size:.95rem}
+.calc-res small{display:block;font-size:.76rem;line-height:1.5;opacity:.85;margin-top:14px}
 </style>
 </head>
 <body>
@@ -305,10 +320,37 @@ dialog p{font-size:.95rem}
     <p>O INSS de uma obra costuma ser calculado por estimativa, a partir da área e do tipo da construção. Dependendo de como a obra foi conduzida, a legislação prevê um mecanismo de ajuste, o fator de ajuste, que pode reduzir esse valor, em alguns casos de forma expressiva.</p>
     <ul class="ticks"><li>Análise da sua obra para ver se ela se enquadra</li><li>Orientação sobre o que precisa ser feito durante a construção</li><li>Regularização e certidão da obra em dia</li></ul>
     <p>O ideal é analisar a obra o quanto antes, porque parte das exigências acontece durante a construção.</p>
-    <a class="btn wa" href="#contato" data-t="Olá! Quero analisar a redução de INSS da minha obra.">Quero analisar minha obra</a>
+    <a class="btn wa" href="#contato" data-t="Olá! Quero analisar a redução de INSS da minha obra." data-to="obra">Quero analisar minha obra</a>
   </div>
   <div class="stat"><span>Redução possível de até</span><b>70%</b><span>no valor final do INSS da obra, conforme o enquadramento*</span><small>*A redução depende do enquadramento da obra e do cumprimento das exigências legais. Não há garantia de percentual: cada caso é analisado individualmente.</small></div>
-</div></section>
+</div>
+<div class="wrap obra2">
+  <div class="head"><p class="kicker">Como funciona</p><h2>Regularização de obra em 4 passos</h2></div>
+  <ol class="steps s4">
+    <li><h3>Você envia os dados</h3><p>Informações e documentos básicos da sua obra, pelo WhatsApp.</p></li>
+    <li><h3>Analisamos o seu caso</h3><p>Avaliamos o enquadramento e explicamos as possibilidades.</p></li>
+    <li><h3>Cuidamos do processo</h3><p>CNO, cálculo e demais etapas junto à Receita Federal.</p></li>
+    <li><h3>Você recebe a certidão</h3><p>CND da obra, para averbar o imóvel no cartório.</p></li>
+  </ol>
+</div>
+<div class="wrap contact obra3" id="analise">
+  <div><p class="kicker">Calculadora</p><h2>Estime a redução do INSS da sua obra</h2><p>Responda algumas perguntas e veja uma estimativa inicial. Depois, converse com um especialista em obras pelo WhatsApp, com os dados da sua obra já na mensagem.</p></div>
+  <div class="calc" id="calc">
+    <p class="calc-demo" id="demo" hidden>Valores de demonstração, aguardando validação do especialista.</p>
+    <label>Quem é o responsável pela obra?<select id="c-pessoa"><option>Pessoa física</option><option>Pessoa jurídica</option></select></label>
+    <label>Fase da obra<select id="c-fase"><option>Ainda vai começar</option><option>Em andamento</option><option>Concluída</option><option>Recebi um aviso da Receita</option></select></label>
+    <label>Destinação<select id="c-dest"><option>Residencial unifamiliar</option><option>Residencial multifamiliar</option><option>Comercial (salas e lojas)</option><option>Galpão industrial</option></select></label>
+    <label>Tipo de obra<select id="c-tipo"><option>Alvenaria</option><option>Madeira ou mista</option></select></label>
+    <label>Área construída aproximada (m²)<input id="c-area" type="number" min="1" inputmode="numeric" placeholder="Ex.: 120"></label>
+    <button class="btn" id="c-go" type="button">Calcular estimativa</button>
+    <div class="calc-res" id="c-res" hidden aria-live="polite">
+      <span>Potencial estimado de redução</span><b id="c-pct"></b><p id="c-txt"></p>
+      <a class="btn" id="c-wa" target="_blank" rel="noopener" href="#">Chamar no WhatsApp</a>
+      <small>Estimativa inicial, sem valor de cálculo oficial. A redução real depende do enquadramento da obra, da documentação e da análise técnica, e não há garantia de percentual.</small>
+    </div>
+  </div>
+</div>
+</section>
 
 <section class="alt" id="servicos"><div class="wrap">
   <div class="head"><p class="kicker">Serviços</p><h2>Como podemos te ajudar?</h2><p>Soluções para cada etapa da sua empresa ou da sua obra.</p></div>
@@ -320,7 +362,7 @@ dialog p{font-size:.95rem}
     <div class="card"><div class="img" style="--img:url(card-obra.jpg)">Regularização de obra<span class="tag">Destaque</span></div><div class="body">
       <p>Regularização da obra junto ao INSS, para você ter a documentação em dia.</p>
       <ul><li>Matrícula CNO</li><li>Aferição da obra e cálculo das contribuições</li><li>Certidão de regularização</li><li>Análise de redução do INSS (fator de ajuste)</li></ul>
-      <a class="btn wa" href="#contato" data-t="Olá! Quero regularizar minha obra (INSS).">Quero regularizar minha obra</a></div></div>
+      <a class="btn wa" href="#contato" data-t="Olá! Quero regularizar minha obra (INSS)." data-to="obra">Quero regularizar minha obra</a></div></div>
     <div class="card"><div class="img" style="--img:url(card-contabilidade.jpg)">Contabilidade geral</div><div class="body">
       <p>Rotina contábil completa, com impostos e obrigações em dia e relatórios que ajudam a decidir.</p>
       <ul><li>Escrituração e balanços</li><li>Apuração de impostos e notas</li><li>Planejamento tributário</li></ul>
@@ -328,7 +370,7 @@ dialog p{font-size:.95rem}
     <div class="card"><div class="img" style="--img:url(card-pessoal.jpg)">Departamento pessoal</div><div class="body">
       <p>Rotina de funcionários sem dor de cabeça, do registro ao eSocial.</p>
       <ul><li>Admissões e rescisões</li><li>Folha, férias e encargos</li><li>Obrigações do eSocial</li></ul>
-      <a class="btn wa" href="#contato" data-t="Olá! Quero saber mais sobre departamento pessoal.">Saiba mais</a></div></div>
+      <a class="btn wa" href="#contato" data-t="Olá! Quero saber mais sobre departamento pessoal." data-to="obra">Saiba mais</a></div></div>
   </div>
 </div></section>
 
@@ -372,6 +414,8 @@ dialog p{font-size:.95rem}
   <div class="faq">
     <details><summary>Vocês atendem em todo o Brasil?</summary><p>Sim. Somos uma contabilidade digital: o atendimento é todo online, por WhatsApp, e-mail e videochamada, então atendemos clientes de qualquer cidade do país.</p></details>
     <details><summary>Minha obra pode ter redução de INSS?</summary><p>Em alguns casos, sim. A legislação prevê um mecanismo de ajuste que pode reduzir o valor do INSS de obras que se enquadram nas exigências. O percentual depende de cada obra, por isso analisamos o seu caso antes de dizer o que é possível. O ideal é fazer essa análise o quanto antes.</p></details>
+    <details><summary>O que é a CND da obra e para que serve?</summary><p>É a certidão que comprova a regularidade da obra perante a Receita Federal. Em geral, ela é exigida pelo cartório para averbar a construção na matrícula do imóvel.</p></details>
+    <details><summary>Recebi um aviso da Receita sobre a minha obra. E agora?</summary><p>Não se preocupe: o primeiro passo é entender o aviso e os dados da obra. Em muitos casos é possível revisar as informações e aplicar o que a legislação permite. Fale com a gente para analisarmos o seu caso.</p></details>
     <details><summary>Preciso regularizar minha obra no INSS?</summary><p>Em geral, sim. Ao concluir uma construção, reforma ou ampliação, a obra precisa ser regularizada para você obter a documentação exigida, por exemplo, para averbar o imóvel. Analisamos o seu caso e dizemos exatamente o que é necessário.</p></details>
     <details><summary>Quanto tempo leva para abrir uma empresa?</summary><p>O prazo varia conforme a atividade e o município. Depois de entender o seu caso, informamos uma estimativa e acompanhamos todo o processo.</p></details>
     <details><summary>Vocês atendem o meu tipo de negócio?</summary><p>Atendemos empresas de diferentes ramos e temos atendimento especializado para salões de beleza e clínicas médicas. Fale com a gente e contamos como funciona para o seu caso.</p></details>
@@ -411,9 +455,10 @@ dialog p{font-size:.95rem}
   <button class="btn" id="privx">Fechar</button>
 </dialog>
 <script>
-var WHATS="5545999999999";
-function wa(t){return "https://wa.me/"+WHATS+"?text="+encodeURIComponent(t+" (enviado pelo site)")}
-document.querySelectorAll("a.wa").forEach(function(a){a.href=wa(a.dataset.t);a.target="_blank";a.rel="noopener"});
+var WHATS="5545999999999"; // Guilherme: contabilidade geral e abertura de empresa
+var WHATS_OBRA="554599474948"; // Diogo: regularização de obra e departamento pessoal (confirme testando o link)
+function wa(t,n){return "https://wa.me/"+(n||WHATS)+"?text="+encodeURIComponent(t+" (enviado pelo site)")}
+document.querySelectorAll("a.wa").forEach(function(a){a.href=wa(a.dataset.t,a.dataset.to==="obra"?WHATS_OBRA:WHATS);a.target="_blank";a.rel="noopener"});
 var s=document.querySelectorAll(".slide"),d=document.querySelectorAll("#dots button"),i=0,t;
 function go(n){s[i].classList.remove("on");d[i].classList.remove("on");i=n;s[i].classList.add("on");d[i].classList.add("on")}
 if(!matchMedia("(prefers-reduced-motion:reduce)").matches)t=setInterval(function(){go((i+1)%s.length)},4000);
@@ -423,7 +468,7 @@ bg.onclick=function(){var o=m.classList.toggle("open");bg.setAttribute("aria-exp
 m.querySelectorAll("a").forEach(function(a){a.onclick=function(){m.classList.remove("open")}});
 window.addEventListener("scroll",function(){document.querySelector("header.nav").classList.toggle("sc",scrollY>20)},{passive:true});
 document.getElementById("f").addEventListener("submit",function(e){e.preventDefault();var x=new FormData(e.target);track("envio_formulario",{assunto:x.get("assunto")});
-window.open(wa("Olá! Meu nome é "+x.get("nome")+". Quero falar sobre: "+x.get("assunto")+". Telefone: "+x.get("tel")+"."),"_blank")});
+window.open(wa("Olá! Meu nome é "+x.get("nome")+". Quero falar sobre: "+x.get("assunto")+". Telefone: "+x.get("tel")+".",/obra|pessoal/i.test(x.get("assunto"))?WHATS_OBRA:WHATS),"_blank")});
 if(!matchMedia("(prefers-reduced-motion:reduce)").matches&&"IntersectionObserver" in window){
  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.12});
  document.querySelectorAll(".card,.why>div,.steps li,.person,.about>div:first-child,.head,.contact>*,details,#brasil .wrap>*,.inss>*").forEach(function(el,n){el.classList.add("rv");el.style.transitionDelay=(n%3)*90+"ms";io.observe(el)});
@@ -444,7 +489,23 @@ document.getElementById("rc").onclick=ask;
 var pv=document.getElementById("priv");
 document.querySelectorAll("[data-priv]").forEach(function(b){b.onclick=function(){pv.showModal()}});
 document.getElementById("privx").onclick=function(){pv.close()};
-document.querySelectorAll("a.wa").forEach(function(a){a.addEventListener("click",function(){track("clique_whatsapp",{servico:a.dataset.t})})});
+document.querySelectorAll("a.wa").forEach(function(a){a.addEventListener("click",function(){track("clique_whatsapp",{servico:a.dataset.t,destino:a.dataset.to||"geral"})})});
+var CALC_VALIDADA=false; // troque para true depois que o especialista validar os parâmetros abaixo
+var CALC={pfTeto:70,faixaMin:0.5,fase:{"Ainda vai começar":1,"Em andamento":.85,"Concluída":.6,"Recebi um aviso da Receita":.5},dest:{"Residencial unifamiliar":1,"Residencial multifamiliar":.9,"Comercial (salas e lojas)":.8,"Galpão industrial":.8},tipo:{"Alvenaria":1,"Madeira ou mista":1},areaGrande:{acima:350,mult:.9}};
+if(!CALC_VALIDADA)document.getElementById("demo").hidden=false;
+document.getElementById("c-go").onclick=function(){
+ var g=function(i){return document.getElementById(i).value};
+ var pessoa=g("c-pessoa"),fase=g("c-fase"),dest=g("c-dest"),tipo=g("c-tipo"),area=parseFloat(g("c-area"));
+ if(!(area>0)){document.getElementById("c-area").focus();return}
+ var pct,txt;
+ if(pessoa==="Pessoa jurídica"){pct="Análise caso a caso";txt="Obras de pessoa jurídica seguem um processo próprio. Fale com um especialista para entender as possibilidades."}
+ else{var m=CALC.fase[fase]*CALC.dest[dest]*CALC.tipo[tipo]*(area>CALC.areaGrande.acima?CALC.areaGrande.mult:1);var max=Math.round(CALC.pfTeto*m),min=Math.round(max*CALC.faixaMin);pct=min+"% a "+max+"%";txt="Estimativa inicial de redução possível no INSS da obra. O valor real depende da análise técnica."}
+ document.getElementById("c-pct").textContent=pct;document.getElementById("c-txt").textContent=txt;
+ var msg="Olá! Usei a calculadora do site. Obra: "+pessoa+", "+dest+", "+tipo+", cerca de "+area+" m², fase: "+fase+". Estimativa: "+pct+". Quero conversar sobre a redução do INSS.";
+ document.getElementById("c-wa").href=wa(msg,WHATS_OBRA);
+ document.getElementById("c-res").hidden=false;track("calculo_obra",{pessoa:pessoa,fase:fase,estimativa:pct});
+};
+document.getElementById("c-wa").addEventListener("click",function(){track("clique_whatsapp",{servico:"calculadora_obra",destino:"obra"})});
 </script>
 </body>
 </html>
