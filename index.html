@@ -450,9 +450,20 @@ dialog p{font-size:.95rem}
   <h2>Política de privacidade</h2>
   <p><b>Quem somos.</b> Este site é de Guilherme Fonseca Contador. Para falar sobre dados pessoais: contabilidadecontatofoz2026@gmail.com.</p>
   <p><b>Quais dados coletamos.</b> Se você aceitar os cookies, usamos o Google Analytics para medir as visitas: páginas acessadas, tipo de aparelho, cidade aproximada e origem do acesso. Não coletamos nome, telefone nem e-mail por esse meio.</p>
-  <p><b>Formulário e WhatsApp.</b> O formulário apenas abre uma conversa no WhatsApp com a mensagem que você escreveu. O site não armazena esses dados. A conversa passa a seguir as regras do WhatsApp e é usada somente para responder ao seu contato.</p>
+  <p><b>Formulário, botões e WhatsApp.</b> Se você informar nome e telefone no formulário, na calculadora ou antes de abrir o WhatsApp, registramos esses dados em uma planilha acessada por Guilherme e Diogo, apenas para retornar o seu contato. Você também pode continuar sem informar. A conversa no WhatsApp segue as regras do próprio aplicativo.</p>
   <p><b>Seus direitos.</b> Você pode recusar os cookies, mudar de ideia no link "Cookies" do rodapé e pedir informações sobre seus dados pelo e-mail acima.</p>
   <button class="btn" id="privx">Fechar</button>
+</dialog>
+<dialog id="lead">
+  <h2>Antes de abrir o WhatsApp</h2>
+  <p>Deixe seu nome e telefone para que a equipe possa retornar o seu contato.</p>
+  <form id="l-form">
+    <label>Nome<input id="l-nome" required autocomplete="name"></label>
+    <label>Telefone com DDD<input id="l-tel" type="tel" required autocomplete="tel" inputmode="tel"></label>
+    <button class="btn" type="submit">Continuar para o WhatsApp</button>
+    <p class="note">Usamos esses dados apenas para retornar o seu contato. Saiba mais na <button type="button" class="lk" data-priv>política de privacidade</button>.</p>
+  </form>
+  <button type="button" class="lk" id="l-skip">Continuar sem informar</button>
 </dialog>
 <script>
 var WHATS="554599089341"; // Guilherme: contabilidade geral e abertura de empresa
@@ -467,7 +478,7 @@ var m=document.getElementById("menu"),bg=document.getElementById("burger");
 bg.onclick=function(){var o=m.classList.toggle("open");bg.setAttribute("aria-expanded",o)};
 m.querySelectorAll("a").forEach(function(a){a.onclick=function(){m.classList.remove("open")}});
 window.addEventListener("scroll",function(){document.querySelector("header.nav").classList.toggle("sc",scrollY>20)},{passive:true});
-document.getElementById("f").addEventListener("submit",function(e){e.preventDefault();var x=new FormData(e.target);track("envio_formulario",{assunto:x.get("assunto")});
+document.getElementById("f").addEventListener("submit",function(e){e.preventDefault();var x=new FormData(e.target);track("envio_formulario",{assunto:x.get("assunto")});sendLead({origem:"formulario",destino:/obra|pessoal/i.test(x.get("assunto"))?"Diogo":"Guilherme",nome:x.get("nome"),telefone:x.get("tel"),servico:x.get("assunto")});
 window.open(wa("Olá! Meu nome é "+x.get("nome")+". Quero falar sobre: "+x.get("assunto")+". Telefone: "+x.get("tel")+".",/obra|pessoal/i.test(x.get("assunto"))?WHATS_OBRA:WHATS),"_blank")});
 if(!matchMedia("(prefers-reduced-motion:reduce)").matches&&"IntersectionObserver" in window){
  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.12});
@@ -506,6 +517,17 @@ document.getElementById("c-go").onclick=function(){
  document.getElementById("c-res").hidden=false;track("calculo_obra",{pessoa:pessoa,fase:fase,estimativa:pct});
 };
 document.getElementById("c-wa").addEventListener("click",function(){track("clique_whatsapp",{servico:"calculadora_obra",destino:"obra"})});
+var LEADS_URL=""; // cole aqui a URL do Apps Script (termina em /exec); vazio = não registra contatos
+var LEAD_PODE_PULAR=true; // false = obriga a informar o telefone
+function sendLead(d){if(!LEADS_URL)return;try{d.pagina=location.href;fetch(LEADS_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(d),keepalive:true})}catch(e){}}
+var ld=document.getElementById("lead"),pend=null;
+function askLead(href,info){if(!LEADS_URL){window.open(href,"_blank");return}pend={href:href,info:info};ld.showModal();document.getElementById("l-nome").focus()}
+document.querySelectorAll('a.wa[data-to="obra"]').forEach(function(a){a.addEventListener("click",function(e){if(!LEADS_URL)return;e.preventDefault();askLead(a.href,{origem:"botao",destino:"Diogo",servico:a.dataset.t})})});
+var cw=document.getElementById("c-wa");
+if(cw)cw.addEventListener("click",function(e){if(!LEADS_URL)return;e.preventDefault();askLead(cw.href,{origem:"calculadora",destino:"Diogo",servico:"Calculadora de obra",estimativa:document.getElementById("c-pct").textContent})});
+document.getElementById("l-form").addEventListener("submit",function(e){e.preventDefault();var d=pend.info;d.nome=document.getElementById("l-nome").value;d.telefone=document.getElementById("l-tel").value;sendLead(d);track("lead_capturado",{destino:d.destino});ld.close();window.open(pend.href,"_blank")});
+document.getElementById("l-skip").onclick=function(){ld.close();window.open(pend.href,"_blank")};
+if(!LEAD_PODE_PULAR)document.getElementById("l-skip").hidden=true;
 </script>
 </body>
 </html>
